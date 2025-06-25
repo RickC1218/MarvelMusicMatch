@@ -38,7 +38,7 @@ Marvel Music Match contará con un backend desarrollado con **Node.js**, **Expre
 
 1. Clona este repositorio:
   ```bash
-  git clone https://github.com/tuusuario/MarvelMusicMatch.git
+  git clone https://github.com/RickC1218/MarvelMusicMatch.git
   ```
 2. Instala las dependencias del frontend:
   ```bash
