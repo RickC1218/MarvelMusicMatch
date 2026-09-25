@@ -9,13 +9,17 @@ export default {
       fontFamily: {
         poppins: ['var(--font-poppins)'],
       },
+      // Design system: cada token lleva su peso.
+      // Display 1 (600) · Title H1 (500) · Title H2 (400) · Text base (400)
+      // Text secondary (300) · Botones/Tags (600)
       fontSize: {
-        display: ['48px', { lineHeight: '72px' }],
-        title1: ['36px', { lineHeight: '54px' }],
-        title2: ['28px', { lineHeight: '42px' }],
-        base: ['20px', { lineHeight: '30px' }],
-        secondary: ['16px', { lineHeight: '24px' }],
-        tags: ['14px', { lineHeight: '21px' }],
+        display: ['48px', { lineHeight: '72px', fontWeight: '600' }],
+        title1: ['36px', { lineHeight: '54px', fontWeight: '500' }],
+        title2: ['28px', { lineHeight: '42px', fontWeight: '400' }],
+        // "body" (20px) en lugar de sobrescribir "base", que es el 16px por defecto.
+        body: ['20px', { lineHeight: '30px', fontWeight: '400' }],
+        secondary: ['16px', { lineHeight: '24px', fontWeight: '300' }],
+        tags: ['14px', { lineHeight: '21px', fontWeight: '600' }],
       },
       fontWeight: {
         light: '300',
@@ -32,13 +36,16 @@ export default {
         xl: '32px',
       },
       colors: {
-        primary: 'var(--primary-color)',
-        danger: 'var(--danger-color)',
-        background: 'var(--background-color)',
-        dark: 'var(--dark-color)',
-        muted: 'var(--muted-color)',
-        success: 'var(--success-color)',
-        neutral: 'var(--neutral-color)',
+        primary: 'rgb(var(--primary-color) / <alpha-value>)',
+        accent: 'rgb(var(--accent-color) / <alpha-value>)',
+        danger: 'rgb(var(--danger-color) / <alpha-value>)',
+        background: 'rgb(var(--background-color) / <alpha-value>)',
+        dark: 'rgb(var(--dark-color) / <alpha-value>)',
+        muted: 'rgb(var(--muted-color) / <alpha-value>)',
+        success: 'rgb(var(--success-color) / <alpha-value>)',
+        onSuccess: 'rgb(var(--on-success-color) / <alpha-value>)',
+        neutral: 'rgb(var(--neutral-color) / <alpha-value>)',
+        marvel: 'rgb(var(--marvel-color) / <alpha-value>)',
       },
     },
   },

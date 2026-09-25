@@ -1,46 +1,79 @@
-import express, { Request, Response, NextFunction } from 'express';
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
 import cors from 'cors';
+import express from 'express';
+import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
+import mongoose from 'mongoose';
 
+import { collectConfigWarnings, env } from './config/env';
+import { errorHandler, notFoundHandler } from './middleware/errorHandler';
+import characterRoutes from './routes/characterRoutes';
 import playlistRoutes from './routes/playlistRoutes';
-
-dotenv.config();
 
 const app = express();
 
-app.use(cors());
-app.use(express.json());
+app.disable('x-powered-by');
+app.use(helmet());
+app.use(cors({ origin: env.corsOrigins }));
+app.use(express.json({ limit: '100kb' }));
 
-const username = process.env.USER ?? '';
-const password = encodeURIComponent(process.env.PASSWORD ?? '');
-const database = process.env.DATABASE ?? '';
-const cluster = process.env.CLUSTER ?? '';
-const port = process.env.PORT ?? '5000';
+// Límite global: protege sobre todo el costo de OpenAI cuando se integre.
+app.use(
+  rateLimit({
+    windowMs: 60_000,
+    limit: 60,
+    standardHeaders: 'draft-7',
+    legacyHeaders: false,
+    message: {
+      error: {
+        code: 'RATE_LIMITED',
+        message: 'Demasiadas peticiones. Intenta de nuevo en un minuto.',
+      },
+    },
+  }),
+);
 
-const MONGO_URI = `mongodb+srv://${username}:${password}@${database}.${cluster}.mongodb.net/?retryWrites=true&w=majority&appName=${database}`;
-
-mongoose
-  .connect(MONGO_URI)
-  .then(() => console.log('✅ MongoDB conectado'))
-  .catch((err) => console.error('❌ Error al conectar a Mongo:', err));
-
-app.get('/', (_req: Request, res: Response) => {
+app.get('/', (_req, res) => {
   res.send('🎶 ¡Servidor de MarvelMusicMatch funcionando!');
 });
 
+app.get('/health', (_req, res) => {
+  res.json({ status: 'ok', mongo: mongoose.connection.readyState === 1 });
+});
+
+app.use('/api/characters', characterRoutes);
 app.use('/api/playlists', playlistRoutes);
 
-app.use((_req, res) => {
-  res.status(404).json({ error: 'Ruta no encontrada' });
-});
+app.use(notFoundHandler);
+app.use(errorHandler);
 
-app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
-  console.error('💥 Error:', err.message);
-  res.status(500).json({ error: 'Error interno del servidor' });
-});
+const connectDatabase = async (): Promise<void> => {
+  if (!env.mongoUri) {
+    console.warn('⚠️  MongoDB no configurado: la persistencia está deshabilitada.');
+    return;
+  }
 
-const PORT = process.env.PORT ?? 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
-});
+  try {
+    await mongoose.connect(env.mongoUri, { serverSelectionTimeoutMS: 8000 });
+    console.log('✅ MongoDB conectado');
+  } catch (error) {
+    console.error(
+      '❌ Error al conectar a MongoDB:',
+      error instanceof Error ? error.message : error,
+    );
+  }
+};
+
+const start = (): void => {
+  for (const warning of collectConfigWarnings()) {
+    console.warn(`⚠️  ${warning}`);
+  }
+
+  // El servidor HTTP escucha siempre, sin acoplar su disponibilidad a la BD.
+  app.listen(env.port, () => {
+    console.log(`🚀 Servidor corriendo en http://localhost:${env.port}`);
+  });
+
+  void connectDatabase();
+};
+
+start();

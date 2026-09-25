@@ -1,12 +1,16 @@
 import { Router } from 'express';
 import {
   createPlaylist,
+  deletePlaylist,
   getAllPlaylists,
   getPlaylistById,
-  deletePlaylist
 } from '../controllers/playlistController';
+import { generatePlaylist } from '../controllers/generationController';
 
 const router = Router();
+
+// Ruta específica antes de las que usan parámetros.
+router.post('/generate', generatePlaylist);
 
 router.post('/', createPlaylist);
 router.get('/', getAllPlaylists);

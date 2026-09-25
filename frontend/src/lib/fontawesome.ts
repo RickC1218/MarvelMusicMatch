@@ -13,7 +13,13 @@ import {
   faPlay,
   faPause,
   faShieldHalved,
-  faMagnifyingGlass
+  faMagnifyingGlass,
+  faFilm,
+  faCircleExclamation,
+  faCompactDisc,
+  faRotateRight,
+  faBookmark,
+  faArrowUpRightFromSquare,
 } from '@fortawesome/free-solid-svg-icons'
 import { faSpotify } from '@fortawesome/free-brands-svg-icons'
 
@@ -32,5 +38,11 @@ library.add(
   faPause,
   faShieldHalved,
   faSpotify,
-  faMagnifyingGlass
+  faMagnifyingGlass,
+  faFilm,
+  faCircleExclamation,
+  faCompactDisc,
+  faRotateRight,
+  faBookmark,
+  faArrowUpRightFromSquare,
 )

@@ -1,15 +1,47 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap');
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
+/* Design system
+ * Dark blue #2C3E50 -> superficies y texto (--primary-color)
+ * #DC3545          -> acento / CTAs (--accent-color)
+ * Secondary #F5F5F5 -> fondo claro (--background-color)
+ * Dark #222222      -> fondo oscuro (--dark-color)
+ * Light dark #727272 -> texto atenuado (--muted-color)
+ * Green #1DB954     -> éxito / Spotify (--success-color)
+ * White #FFFFFF     -> tarjetas
+ */
 :root {
-  --primary-color: #2C3E50;
-  --background-color: #F5F5F5;
-  --success-color: #1DB95490;
-  --danger-color: #DC3545;
-  --dark-color: #222222;
-  --muted-color: #727272;
-  --neutral-color: #F0F0F0;
+  --primary-color: 44 62 80; /* #2C3E50 */
+  --accent-color: 220 53 69; /* #DC3545 */
+  --background-color: 245 245 245; /* #F5F5F5 */
+  --success-color: 29 185 84; /* #1DB954 */
+  --on-success-color: 255 255 255; /* #FFFFFF */
+  --danger-color: 220 53 69; /* #DC3545 */
+  --marvel-color: 237 29 36; /* #ED1D24 */
+  --dark-color: 34 34 34; /* #222222 */
+  --muted-color: 114 114 114; /* #727272 */
+  --neutral-color: 240 240 240; /* #F0F0F0 */
   --font-poppins: 'Poppins', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: rgb(var(--background-color));
+}
+
+html.role-villain {
+  --success-color: 220 53 69; /* #DC3545 */
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }

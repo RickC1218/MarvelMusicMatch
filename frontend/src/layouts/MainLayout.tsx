@@ -1,11 +1,15 @@
+import { Outlet } from 'react-router-dom';
+import { Footer } from '../components/Footer';
+import { Header } from '../components/Header';
 
+const MainLayout = () => (
+  <div className="flex min-h-screen flex-col bg-background font-poppins text-primary">
+    <Header />
+    <main className="flex-grow">
+      <Outlet />
+    </main>
+    <Footer />
+  </div>
+);
 
-const MainLayout = ({ children }: { children: React.ReactNode }) =>{
-  return (
-    <div className="min-h-screen flex flex-col bg-background text-primary font-poppins">
-      <main className="flex-grow">{children}</main>
-    </div>
-  )
-}
-
-export default MainLayout
+export default MainLayout;

@@ -1,3 +1,18 @@
+# Dependencias
+node_modules
+
+# Build
+dist
+dist-ssr
+*.tsbuildinfo
+
+# Archivos locales de entorno y config (NUNCA subir credenciales)
+*.local
+.env
+.env.*
+# La plantilla SÍ se versiona (solo tiene placeholders)
+!.env.example
+
 # Logs
 logs
 *.log
@@ -7,12 +22,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
+# Editor y sistema operativo
 .vscode/*
 !.vscode/extensions.json
 .idea

@@ -21,6 +21,34 @@ Marvel Music Match contará con un backend desarrollado con **Node.js**, **Expre
 4. **La app utiliza la API de Spotify** para buscar canciones y crear una playlist que combine con la descripción generada.
 5. **El usuario recibe una playlist única** junto con la descripción del héroe.
 
+## Personajes y dataset
+
+La API pública de Marvel **fue dada de baja**, así que los personajes se cargan
+desde un dataset local:
+
+- Fuente: [Marvel Characters (Kaggle)](https://www.kaggle.com/datasets/iamabhaytiwari/marvelcharacters)
+- Archivo: `backend/data/marvel_characters.csv` (descargar el dataset y colocarlo ahí)
+- Script: `backend/src/scripts/generateTopCharacters.ts`
+
+El script calcula el **Top 100** y lo carga en MongoDB. El backend sirve el
+catálogo desde MongoDB (`characterService`), sin depender de la Marvel API:
+
+```bash
+cd backend
+npm install
+npm run seed:characters              # genera el JSON y siembra MongoDB
+npm run seed:characters -- --skip-seed   # solo genera el JSON
+```
+
+Criterios de relevancia aplicados:
+
+> **Popularity Score**: calculated from the character's number of appearances across comics, series, stories and events in the source dataset.
+
+Además del score se excluyen equipos/organizaciones (X-Men, Avengers, S.H.I.E.L.D.,
+etc.), los personajes sin apariciones y los que no tienen imagen real
+(`image_not_available`). El `role` (héroe/villano) solo se conoce para los
+personajes curados; el resto queda en `null` porque el dataset no lo incluye.
+
 ## Tecnologías utilizadas
 
 - **React** para la interfaz de usuario.

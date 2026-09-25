@@ -1,1 +1,24 @@
+# Dependencias
+node_modules/
+
+# Build
+dist/
+*.tsbuildinfo
+
+# Dataset y JSON generado (ver src/scripts/generateTopCharacters.ts)
+data/
+
+# Variables de entorno (NUNCA subir credenciales: BD, OpenAI, Gemini, Spotify)
 .env
+.env.local
+.env.*.local
+.env.development.local
+.env.production
+*.env
+# La plantilla SÍ se versiona (solo tiene placeholders)
+!.env.example
+!*.env.example
+
+# Logs
+*.log
+npm-debug.log*
